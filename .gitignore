@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# project specific
+model
+T5_xlasmi00_xlazik00.zip
