@@ -1,0 +1,108 @@
+%
+% Projekt: simulation_study.tex
+% Autor:   Michal Ľaš
+% Datum:   03.12.2023
+% 
+
+
+\documentclass[a4paper, 11pt, a4paper]{article}
+\usepackage[left=2cm,text={17cm, 24cm},top=3cm]{geometry}
+
+\usepackage[slovak, english]{babel}
+\usepackage{times}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny, disable]{todonotes}
+
+% Images folder
+\graphicspath{{../images/}}
+
+% TODO command
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[[#1]]}}}
+
+
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \begin{center}
+            \textsc{\Huge Brno University of Technology \\}
+            \vspace{0.5em}
+            \textsc{\huge Faculty of Information Technology \\}
+        \vspace{\stretch{0.382}}
+            {\LARGE 	Modelling and Simulation\,--\,Project (T5: SHO Model of logistics) \\ 
+            \vspace{0.4em}
+            \Huge \todo{Name of our project}}
+        \vspace{\stretch{0.618}}
+    \end{center}
+    {\Large \today \hfill Michal Ľaš (xlasmi00), Adam Lazík (xlazik00)}
+\end{titlepage}
+
+% Table of contents
+\tableofcontents
+\newpage
+
+% Body
+\section{Introduction}
+
+\noindent\todo{Zadanie, čo sme si vybrali (krátky popis)\cite{placeholder.cite}}
+
+
+\subsection{Authors}
+
+\noindent\todo{Mená autorov, ročník, fakulta, univerzita}
+
+
+\subsection{Study sources}
+
+\noindent\todo{Adkiaľ sme získali zdroje pre túto prácu}
+
+
+\subsection{Model validation}
+
+\noindent\todo{Ako sa nám podarilo overiť validitu modelu}
+
+
+\subsection{Used technologies and procedures}
+
+\noindent\todo{SIMLIB, C++, petriho siete (ku všetkým napísať zdroje a dôvod ich použitia)}
+
+
+
+\section{Model Design}
+
+\noindent\todo{Popis našeho zadania ako pri polsemestrálke, textom s konkrétnymi číslami (každý fakt potrebuje zdroj)}
+
+\noindent\todo{Petriho sieť}
+
+
+\section{Architecture of the simulation model}
+
+\noindent\todo{Ako model v skutočnosti funguje (naprogramovaný)}
+
+\noindent\todo{Popis implementácie}
+
+
+\section{Experiments}
+
+\todo{Pipis vykonaných experimentov, ich dôvod, výsledky a zistenia}
+
+
+\section{Conclusion}
+
+\todo{Čo sa nám podarilo experimentami dokázať}
+
+
+% Literature
+\newpage
+
+\bibliographystyle{enplain.bst}
+\renewcommand{\refname}{Sources}
+\bibliography{simulation_study}
+
+\end{document}
