@@ -13,12 +13,12 @@
 
 + abilities of autonomous cars
 + the price of operating an electric car
-+ the price of operating an gas car
++ the price of operating a gas car
 + the price of the courier
 + $CO^2$ load for classic cars (gas)
 + $CO^2$ load for electric cars
 + number of Z-Boxes (Packeta web site)
-+ number of packages delivered in one day 
++ number of packages delivered in one day
     - packages delivered to other depos (may be irrelevant if there goes only one car)
     - packages delivered to Z-Boxes
     - packages delivered to address
@@ -44,4 +44,3 @@
 
 
 # Design of the choosen company
-
