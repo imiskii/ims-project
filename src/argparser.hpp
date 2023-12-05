@@ -3,7 +3,7 @@
  * @author Michal Ľaš (xlasmi00)
  * @brief Header file for argparse.cpp
  * @date 2023-10-19
- * 
+ *
  */
 
 
@@ -30,12 +30,16 @@ using namespace std;
 // parsed program arguments
 struct arguments
 {
-    int place_holder;
+    unsigned days;
+    unsigned gas_cars;
+    unsigned autonomus_cars;
+    unsigned electric_cars;
+    unsigned parcels;
 };
 
 
 // argument flags (tells if program argument was given)
-struct arg_flags  
+struct arg_flags
 {
     bool h_flag;
 };
@@ -46,14 +50,12 @@ struct arg_flags
 class ArgParser
 {
 protected:
-    // Singleton pointer to itself
-    static ArgParser *__instance; 
     // Flag telling if program arguments were already parsed
     bool __parsed;
 
     /**
      * @brief Construct a new Arg Parser object
-     * 
+     *
      * @param argc number of arguments
      * @param argv pointer to array with arguments
      */
@@ -61,7 +63,7 @@ protected:
 
 private:
     /* Private Attributes */
-    
+
 
     vector<option> _long_opt;   // Long program options
     string _short_opt;          // Short program options
@@ -71,9 +73,19 @@ private:
 
     /**
      * @brief print program help info
-     * 
+     *
      */
     void __printHelp();
+
+    /**
+     * @brief parse given given argument and return its unsigned
+     * integer value. If argument is not a valid unsigned integer,
+     * exit with error code 1.
+     *
+     * @param str argument expected to be unsigned integer
+     * @return int value of the argument
+     */
+    int __parseUnsignedInt(char *str);
 
 public:
     ArgParser(ArgParser &other) = delete;
@@ -87,23 +99,22 @@ public:
 
     /**
      * @brief Get the Instance object
-     * 
+     *
      * @param argc number of program arguments
      * @param argv program arguments
      * @return ArgParser* ArgParser class instance
      */
     static ArgParser *GetInstance(int argc, char **argv);
-    ~ArgParser();
 
     /**
      * @brief Parse program arguments
-     * 
+     *
      * @return arguments struct with parsed program arguments
      */
     arguments getArguments();
 
+    // DEBUG PRINT
+    void printArgs();
 };
-
-ArgParser *ArgParser::__instance = nullptr;;
 
 #endif // ARGPARSE_H

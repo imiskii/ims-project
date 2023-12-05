@@ -9,9 +9,13 @@
  */
 
 #include "model.hpp"
+#include "argparser.hpp"
 
 using namespace std;
 
-int main() {
-    cout << "Hello world!" << endl;
+int main(int argc, char **argv) {
+    ArgParser *arg_parser = ArgParser::GetInstance(argc, argv);
+    //struct arguments args = arg_parser->getArguments();
+    arg_parser->getArguments();
+    arg_parser->printArgs();
 }
