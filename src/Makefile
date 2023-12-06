@@ -6,7 +6,7 @@
 
 CC=g++
 CFLAGS=-std=c++17 -Wall -Wextra -Werror -pedantic
-LIBS=
+LIBS=-lsimlib -static
 
 ZIP=T5_xlasmi00_xlazik00.zip
 
@@ -18,8 +18,8 @@ DEP := $(OBJ:.o=.d)
 
 TOPACK= *.cpp *.hpp Makefile ../doc/simulation_study.pdf ../doc/images
 
-PROGS=model
-OBJ=$(BIN)argparser.o $(BIN)model.o
+PROGS=main
+OBJ=$(BIN)argparser.o $(BIN)main.o $(BIN)GasCar.o
 
 .PHONY: clean all pack run
 
@@ -49,7 +49,7 @@ $(BIN):
 
 
 run: $(PROGS)
-	./model
+	./main
 
 
 pack: clean

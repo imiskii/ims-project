@@ -1,17 +1,19 @@
 /**
- * @file model.hpp
+ * @file main.hpp
  * @author 
- * @brief header file for model.c
+ * @brief header file for main.c
  * @date 2023-12-03
  * 
  */
 
 
 #include <iostream>
+#include <simlib.h>
+#include "consts.hpp"
+#include "argparser.hpp"
 
-
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MAIN_H
+#define MAIN_H
 
 
 using namespace std;
@@ -28,4 +30,4 @@ using namespace std;
 
 
 
-#endif // MODEL_H
+#endif // MAIN_H
