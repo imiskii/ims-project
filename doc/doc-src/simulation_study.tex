@@ -37,7 +37,7 @@
         \vspace{\stretch{0.382}}
             {\LARGE 	Modelling and Simulation\,--\,Project (T5: SHO Model of logistics) \\ 
             \vspace{0.4em}
-            \Huge \todo{Name of our project}}
+            \Huge The use of electric and autonomous cars in the transport company Packeta}
         \vspace{\stretch{0.618}}
     \end{center}
     {\Large \today \hfill Michal Ľaš (xlasmi00), Adam Lazík (xlazik00)}
@@ -50,23 +50,24 @@
 % Body
 \section{Introduction}
 
-\noindent\todo{Zadanie, čo sme si vybrali (krátky popis)\cite{placeholder.cite}}
+The objective of this project is to formulate a model for the logistics, transport, and parcel delivery operations of Packeta, 
+a company specializing in these services. The primary aim of this model is to determine the optimal ratio of conventional, electric, 
+and autonomous vehicles for practical implementation in last-mile delivery. Concurrently, the simulation experiments are designed to 
+explain the financial implications associated with employing different modes of transport and to assess efficiency under varying loads, 
+measured by the number of parcels for delivery.
 
-\begin{itemize}
-    \item Téza
-    \item Motivace a širší souvislosti. Kontext problému.
-    \item K čemu chcete dospět. K čemu jste dospěli. Jak jste výsledky
-    ověřovali.
-\end{itemize}
+To achieve these goals, a specific depot within the Žilina region was selected for the study, namely, the Žilina, Strečno depot.
 
-\subsection{Authors}
-
-\noindent\todo{Mená autorov, ročník, fakulta, univerzita}
+\noindent\todo{K čemu chcete dospět. K čemu jste dospěli, prípadne ešte upraviť úvod podľa podtreby viď prezentácia k projektu slide 22}
 
 
 \subsection{Study sources}
 
-\noindent\todo{Adkiaľ sme získali zdroje pre túto prácu}
+The primary source of resources for this project was derived from the official website of Packeta \cite{packeta}. 
+Due to the company's reluctance to disclose internal information beyond what is officially published, 
+supplementary data essential for model creation was gathered from articles \cite{delivery.distance}, \cite{delivery.percentage}, 
+\cite{parcels.num}, the internet \cite{peugeot}, and professional papers. 
+Notably, information about autonomous cars was predominantly sourced from scientific articles \cite{autonomous.emissions}, \cite{autonomous.models}.
 
 
 \subsection{Model validation}
@@ -76,20 +77,65 @@
 
 \subsection{Used technologies and procedures}
 
-\noindent\todo{SIMLIB, C++, petriho siete (ku všetkým napísať zdroje a dôvod ich použitia)}
+The implementation of the project utilized the C++ programming language along with the SIMLIB library \cite{SIMLIB}. 
+These technologies were chosen for their suitability in addressing the specified problem, offering a requisite interface, 
+ease of use, and being freely accessible.
 
 
+\section{Facts and Hypotheses}
 
-\section{Facts}
+The factual basis for the project primarily relied on information about the vehicles used by Packeta, sourced from the official 
+website of the vehicle manufacturer. The number of parcels a courier can deliver daily was derived from article \cite{parcels.num} on the internet, 
+featuring the CEO of Packeta, who highlighted the effectiveness of parcel lockers and address deliveries. According to the article, 
+a courier can deliver approximately 100 parcels to an address and up to 2500 parcels per day to parcel lockers. This information was 
+cross-referenced with data on the popularity of various delivery destinations \cite{delivery.percentage}.
 
-\todo{Aké fakty sme použili, soupis znalostí o daném problému, zdůvodněné provedené zjednodušení faktů}
+The model also incorporates the cost of courier services, a factor considered due to its elimination with autonomous cars. 
+The price of courier work was obtained from job portals and the official website of Packeta, where such job details are available.
+
+The characteristics of autonomous cars were chosen hypothetically, drawing from articles \cite{autonomous.emissions} and \cite{autonomous.models}. These values were adjusted with a 
+forward-looking perspective, aiming for a greater range and capacity to enhance their significance for a company like Packeta. The delivery 
+time for autonomous cars was determined hypothetically, considering the optimization of traffic navigation, an advantage inherent in sophisticated 
+control systems.
+
+Average delivery distances were determined based on the delivery locations map available on Packeta's official website \cite{packeta} and the geographical 
+structure of the Žilina region. Specifically, areas in the north of Slovakia were identified as being 65\,--\,75 kilometers away from the 
+distribution depot (Žilina, Strečno). The circular route of an electric delivery vehicle covering such distances could pose challenges, 
+particularly in the winter months when the range of electric cars tends to decrease.
 
 
 \section{Model Design}
 
-\noindent\todo{Popis našeho zadania ako pri polsemestrálke, textom s konkrétnymi číslami (každý fakt potrebuje zdroj)}
+Parcels are delivered from the designated depot daily. Parcels are categorized into two distinct groups. The initial group contains parcels 
+necessitating delivery beyond the operational range of electric or autonomous vehicles, constituting 2\,--\,8\% \cite{packeta} of the entire parcel volume. 
+The average distance covered for deliveries in this group spans 180\,--\,200 kilometers \cite{packeta}. The fuel cost for the vehicle employed by the designated 
+company is 1,705€ per liter, with a fuel consumption rate of 8.8 liters per 100 kilometers \cite{peugeot}.
 
-\noindent\todo{Petriho sieť}
+The second group, constituting 98\,--\,92\% \cite{packeta} of the parcels, encompasses those amenable to delivery through all available means. The average distance 
+covered for deliveries in this category ranges from 130\,--\,150 kilometers \cite{packeta}, \cite{delivery.distance}. Each courier is equipped to handle 1274\,--\,1574 parcels \cite{parcels.num}, \cite{delivery.percentage}, inclusive of loading, 
+transportation, and unloading, within their 8-hour work shift. Couriers utilizing electric cars recharge their vehicles overnight at the depot, ensuring 
+they are ready for the next day's deliveries. The cost of electricity is approximately 0.185€ per kilowatt-hour (kWh), and the electric car in use has a 
+consumption rate of 0.35 kWh per 100 kilometers \cite{peugeot}.
+
+Upon completion of their work hours, couriers leave and return the subsequent day. The courier's salary, ranging from 1600\,--\,2000€ per day, is counted into 
+the daily operational costs for both electric and conventional vehicles. Autonomous vehicles exclusively rely on electricity and require charging. 
+Nevertheless, they are capable of delivering parcels throughout the day. It is assumed that during the night, autonomous vehicles either 
+charge or deliver parcels to designated parcel lockers. Consequently, parcels destined for pick-up places and specific addresses receive priority. 
+The preference for delivery destinations is distributed as follows: 44\% for direct delivery to addresses, 35\% for delivery to pick-up places, 
+and 21\% for the favored option of delivery to parcel lockers \cite{delivery.percentage}.
+
+An autonomous car possesses an average transport capacity of 600 parcels per battery charge, and the average delivery time for parcels ranges 
+from 2 to 6 hours. The charging time is 30 minutes. An autonomus car in use has a consumption rate of 0.084 kWh of electricity per 100 kilometers \cite{autonomous.emissions}.
+
+Model created with Petri net is in figure \ref{figure:scheme}.
+
+\begin{figure}[ht]
+    \begin{center}
+        \scalebox{0.6}{\includegraphics{../images/scheme.png}}
+    \end{center}
+    \caption{Petri net model}
+    \label{figure:scheme}
+\end{figure}
 
 
 \section{Architecture of the simulation model}
