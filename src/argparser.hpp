@@ -30,11 +30,11 @@ using namespace std;
 // parsed program arguments
 struct arguments
 {
-    unsigned days;
-    unsigned gas_cars;
-    unsigned autonomus_cars;
-    unsigned electric_cars;
-    unsigned parcels;
+    size_t days;
+    size_t gas_cars;
+    size_t autonomous_cars;
+    size_t electric_cars;
+    size_t parcels;
 };
 
 

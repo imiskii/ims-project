@@ -3,11 +3,11 @@
  * @author Michal Ľaš (xlasmi00)
  * @brief header file for GasCar.c
  * @date 2023-12-05
- * 
+ *
  */
 
 
-#include <simlib.h>
+#include "Car.hpp"
 
 
 #ifndef GASCAR_H
@@ -27,19 +27,32 @@ using namespace std;
 /*********** FUNCTIONS AND CLASSES **************/
 
 
-class GasCar : Process
+class GasCar : public Car
 {
 private:
-    /* Private Attributes */
-    static const double CONSUMPTION;
-    /* Private Methods */
+    // 8.8 l / 100 km
+    static constexpr double CONSUMPTION = 0.088;
 
 public:
     /* Public Attributes */
 
     /* Public Methods */
-    GasCar();
+    GasCar(
+        ParcelBatch &parcels,
+        unsigned long batch_size,
+        bool distant_location_allowed,
+        Stat *parcels_shipped,
+        Stat *operation_cost,
+        Stat *total_cost,
+        Store *garage
+    );
+
     ~GasCar();
+    static bool canBeLoaded(
+        ParcelBatch &parcels, const unsigned long batch_size
+    );
+
+    double calculateOperationCost() override;
 };
 
 

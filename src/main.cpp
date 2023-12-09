@@ -6,14 +6,31 @@
  *
  */
 
-#include "main.hpp"
-
+#include <iostream>
+#include <simlib.h>
+#include "consts.hpp"
+#include "argparser.hpp"
+#include "WorkDay.hpp"
 
 using namespace std;
 
 int main(int argc, char **argv) {
     ArgParser *arg_parser = ArgParser::GetInstance(argc, argv);
-    //struct arguments args = arg_parser->getArguments();
-    arg_parser->getArguments();
+    struct arguments args = arg_parser->getArguments();
+    cout << "=== SIMULATION START ===\n";
     arg_parser->printArgs();
+
+    RandomSeed(time(nullptr));
+
+    for (size_t i = 0; i < args.days; ++i) {
+        Init(0, WorkDay::WORKDAY_END);
+        (new WorkDay(
+            args.parcels,
+            args.gas_cars,
+            args.electric_cars,
+            args.autonomous_cars)
+        )->Activate();
+        Run();
+    }
+    cout << "=== SIMULATION ENDED ===\n";
 }

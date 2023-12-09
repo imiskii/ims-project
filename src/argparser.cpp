@@ -86,7 +86,7 @@ arguments ArgParser::getArguments()
             args.electric_cars = __parseUnsignedInt(optarg);
             break;
         case 'a':
-            args.autonomus_cars = __parseUnsignedInt(optarg);
+            args.autonomous_cars = __parseUnsignedInt(optarg);
             break;
         case 'p':
             args.parcels = __parseUnsignedInt(optarg);
@@ -97,7 +97,7 @@ arguments ArgParser::getArguments()
         }
     }
 
-    if(args.autonomus_cars + args.electric_cars + args.gas_cars == 0) {
+    if(args.autonomous_cars + args.electric_cars + args.gas_cars == 0) {
         cerr << "At least one car type must be specified." << endl;
         exit(EXIT_FAILURE);
     } else if (args.parcels == 0) {
@@ -117,17 +117,19 @@ void ArgParser::printArgs() {
     if(!__parsed) {
         return;
     }
-    cout << "Days: " << args.days
-         << "\nElectric cars: " << args.electric_cars
-         << "\nGas cars: " << args.gas_cars
-         << "\nAutonomus cars: " << args.autonomus_cars
-         << "\nParcels: " << args.parcels << endl;
+    cout << "+----------------------------------------------------------+\n"
+         << "| Days: " << args.days << "\n"
+         << "| Gas cars: " << args.gas_cars << "\n"
+         << "| Electric cars: " << args.electric_cars << '\n'
+         << "| Autonomous cars: " << args.autonomous_cars << '\n'
+         << "| Parcels per day: " << args.parcels << '\n'
+         << "+----------------------------------------------------------+\n";
 }
 
 void ArgParser::__printHelp()
 {
     cout << "Usage: \n"
-         << "./model -p|--parcels PARCELS -g|-e|-a CARS [OPTIONS]\n"
+         << "./main -p|--parcels PARCELS -g|-e|-a CARS [OPTIONS]\n"
          << "\n-p|--parcels PARCELS\n"
          << "   Number of parcels per day to run the simulation with.\n"
          << "   PARCELS must be a positive integer.\n"
@@ -146,8 +148,8 @@ void ArgParser::__printHelp()
          << "-e|--electric_cars\n"
          << "   Number of electric cars to run the simulation with\n"
          << "   Default value: 0\n"
-         << "-a|--autonomus_cars\n"
-         << "   Number of autonomus cars to run the simulation with\n"
+         << "-a|--autonomous_cars\n"
+         << "   Number of autonomous cars to run the simulation with\n"
          << "   Default value: 0"
          << endl;
     exit(EXIT_SUCCESS);
