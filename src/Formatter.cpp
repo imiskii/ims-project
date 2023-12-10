@@ -1,3 +1,11 @@
+/**
+ * @file Formatter.cpp
+ * @author Adam Lazík (xlazik00@vutbr.cz)
+ * @brief Implementation of the Formatter class methods
+ * @date 2023-12-10
+ *
+ */
+
 #include "Formatter.hpp"
 #include <iostream>
 #include <iomanip>

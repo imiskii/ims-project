@@ -1,7 +1,23 @@
+/**
+ * @file Car.cpp
+ * @author Adam Lazík (xlazik00@vutbr.cz)
+ * @brief Implementation of the Car class methods
+ * @date 2023-12-10
+ *
+ */
+
 #include "Car.hpp"
 #include <cmath> //round()
 
 using namespace std;
+
+/* static methods */
+
+int Car::generateBatchSize() {
+    return round(Uniform(MIN_PARCEL_BATCH_SIZE, MAX_PARCEL_BATCH_SIZE));
+}
+
+/* non-static methods */
 
 Car::Car(
     ParcelBatch &parcels,
@@ -23,8 +39,4 @@ void Car::Behavior() {
     (*operation_cost)(op_cost);
     (*total_cost)(op_cost);
     Leave(*garage);
-}
-
-int Car::generateBatchSize() {
-    return round(Uniform(MIN_PARCEL_BATCH_SIZE, MAX_PARCEL_BATCH_SIZE));
 }
