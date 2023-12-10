@@ -12,7 +12,7 @@
 /* static methods */
 
 bool ElectricCar::canBeLoaded(ParcelBatch &parcels, const unsigned long batch_size) {
-    return parcels.size(false) >= batch_size;
+    return parcels.size(false, true) >= batch_size;
 }
 
 /* non_static methods*/
@@ -27,6 +27,7 @@ ElectricCar::ElectricCar(
     parcels,
     batch_size,
     false,
+    true,
     operation_cost,
     total_cost,
     garage

@@ -18,6 +18,7 @@ GasCar::GasCar(
     parcels,
     batch_size,
     true,
+    true,
     operation_cost,
     total_cost,
     garage
@@ -26,7 +27,7 @@ GasCar::GasCar(
 }
 
 bool GasCar::canBeLoaded(ParcelBatch &parcels, const unsigned long batch_size) {
-    return parcels.size(true) >= batch_size;
+    return parcels.size(true, true) >= batch_size;
 }
 
 double GasCar::calculateOperationCost() {

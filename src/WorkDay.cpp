@@ -36,13 +36,16 @@ ElectricCar *WorkDay::newElectricCar(const unsigned long batch_size) {
     );
 }
 
-AutonomousCar *WorkDay::newAutonomousCar(const unsigned long batch_size) {
+AutonomousCar *WorkDay::newAutonomousCar(
+    const unsigned long batch_size, const bool address_allowed
+) {
     return new AutonomousCar(
         parcels,
         batch_size,
         autonomous_car_operation_cost,
         total_cost,
-        autonomous_cars
+        autonomous_cars,
+        address_allowed
     );
 }
 
@@ -51,7 +54,7 @@ void WorkDay::printStart() {
     Formatter::printHeading("Parcels to ship");
     parcels.print();
     Formatter::printStatistic(
-        "Total parcels to ship: " + to_string(parcels.size(true))
+        "Total parcels to ship: " + to_string(parcels.size(true, true))
     );
 }
 
@@ -60,12 +63,12 @@ void WorkDay::printStats() {
     Formatter::printHeading("Parcels shipped");
     parcels_shipped.print();
     Formatter::printStatistic(
-        "Total parcels shipped: " + to_string(parcels_shipped.size(true))
+        "Total parcels shipped: " + to_string(parcels_shipped.size(true, true))
     );
     Formatter::printHeading("Parcels remaining");\
     parcels.print();
     Formatter::printStatistic(
-        "Total parcels remaining: " + to_string(parcels.size(true))
+        "Total parcels remaining: " + to_string(parcels.size(true, true))
     );
     gas_car_operation_cost->Output();
     Formatter::printStatistic(
@@ -121,9 +124,9 @@ WorkDay::WorkDay(
         p_to_near_address,
         p_to_distant_zbox,
         p_to_near_zbox
-    );
+    ) + *parcels_remaining; // remainder from the previous day
 
-    this->parcels =  ParcelBatch(start_parcels) + *parcels_remaining;
+    this->parcels =  ParcelBatch(start_parcels);
 
     printStart();
 }
@@ -150,15 +153,26 @@ void WorkDay::Behavior() {
     }
 
     int parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
-
-    while(AutonomousCar::canBeLoaded(parcels, parcel_load_size)) {
+    while(Time < WORKDAY_END) {
         Enter(*autonomous_cars);
         if(Time >= WorkDay::WORKDAY_END - AutonomousCar::maxOperationTime()) {
             Leave(*autonomous_cars);
             break;
         }
-        newAutonomousCar(parcel_load_size)->Activate();
-        parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
+        bool address_allowed =
+            Time <= ADDRESS_DELIVERY_END - AutonomousCar::maxOperationTime();
+        if(AutonomousCar::canBeLoaded(
+            parcels,
+            parcel_load_size,
+            address_allowed)
+        ) {
+            newAutonomousCar(parcel_load_size, address_allowed)->Activate();
+            // next batch size
+            parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
+        } else {
+            Leave(*autonomous_cars);
+            break;
+        }
     }
 
     Enter(*autonomous_cars, autonomous_cars->Capacity());
@@ -188,11 +202,11 @@ Car *WorkDay::selectBestCar() {
         Enter(*gas_cars);
         car = newGasCar(parcel_load_size);
     } else if(
-        AutonomousCar::canBeLoaded(parcels, parcel_load_size_autonomous) &&
-        !autonomous_cars->Full()
+        AutonomousCar::canBeLoaded(parcels, parcel_load_size_autonomous, true)
+        && !autonomous_cars->Full()
     ) {
         Enter(*autonomous_cars);
-        car = newAutonomousCar(parcel_load_size_autonomous);
+        car = newAutonomousCar(parcel_load_size_autonomous, true);
     } else if (
         !electric_cars->Full() &&
         ElectricCar::canBeLoaded(parcels, parcel_load_size)

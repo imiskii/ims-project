@@ -14,8 +14,8 @@
 class AutonomousCar : public Car
 {
 private:
-    // 0.084kWh / 100km
-    static constexpr double CONSUMPTION = 0.00084; // TODO: check value
+    // 0.25kWh / 100km
+    static constexpr double CONSUMPTION = 0.0025; // TODO: check value
 
     // time in hours
     static const int MIN_DELIVERY_TIME = 2;
@@ -46,7 +46,9 @@ public:
      * @return false if car cannot be fully loaded
      */
     static bool canBeLoaded(
-        ParcelBatch &parcels, const unsigned long batch_size
+        ParcelBatch &parcels,
+        const unsigned long batch_size,
+        const bool address_allowed
     );
 
     /**
@@ -64,7 +66,8 @@ public:
         unsigned long batch_size,
         Stat *operation_cost,
         Stat *total_cost,
-        Store *garage
+        Store *garage,
+        const bool address_allowed
     );
 
     void Behavior() override;

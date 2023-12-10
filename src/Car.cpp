@@ -22,7 +22,8 @@ int Car::generateBatchSize() {
 Car::Car(
     ParcelBatch &parcels,
     unsigned long batch_size,
-    bool distant_location_allowed,
+    const bool distant_location_allowed,
+    const bool address_allowed,
     Stat *operation_cost,
     Stat *total_cost,
     Store *garage
@@ -31,7 +32,9 @@ Car::Car(
     total_cost(total_cost),
     garage(garage)
 {
-    this->parcels.load(parcels, batch_size, distant_location_allowed);
+    this->parcels.load(
+        parcels, batch_size, distant_location_allowed, address_allowed
+    );
 }
 
 void Car::Behavior() {

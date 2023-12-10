@@ -15,8 +15,11 @@ int AutonomousCar::maxOperationTime() {
     return RECHARGE_TIME + MAX_DELIVERY_TIME;
 }
 
-bool AutonomousCar::canBeLoaded(ParcelBatch &parcels, const unsigned long batch_size) {
-    return parcels.size(false) >= batch_size;
+bool AutonomousCar::canBeLoaded(
+    ParcelBatch &parcels,
+    const unsigned long batch_size,
+    const bool address_allowed) {
+    return parcels.size(false, address_allowed) >= batch_size;
 }
 
 int AutonomousCar::generateBatchSizeAutonomous() {
@@ -33,11 +36,13 @@ AutonomousCar::AutonomousCar(
     unsigned long batch_size,
     Stat *operation_cost,
     Stat *total_cost,
-    Store *garage
+    Store *garage,
+    const bool address_allowed
 ) : Car(
     parcels,
     batch_size,
     false,
+    address_allowed,
     operation_cost,
     total_cost,
     garage

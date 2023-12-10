@@ -56,6 +56,7 @@ public:
      * @param parcels parcels to load the car from
      * @param batch_size batch size to load into the car
      * @param distant_location_allowed parcels to distant location are allowed
+     * @param address_allowed parcels to address or pick-up point are allowed
      * @param operation_cost statistic recording operation cost of the vehicle
      * type
      * @param total_cost statistic recording all vehicle costs
@@ -64,7 +65,8 @@ public:
     Car(
         ParcelBatch &parcels,
         unsigned long batch_size,
-        bool distant_location_allowed,
+        const bool distant_location_allowed,
+        const bool address_allowed,
         Stat *operation_cost,
         Stat *total_cost,
         Store *garage
