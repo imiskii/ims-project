@@ -67,13 +67,6 @@ supplementary data essential for model creation was gathered from articles \cite
 \cite{parcels.num}, the internet \cite{peugeot}, and professional papers.
 Notably, information about autonomous cars was predominantly sourced from scientific articles \cite{autonomous.emissions}, \cite{autonomous.models}.
 
-
-\subsection{Model validation}
-
-% validity [\cite{IMS.lectures},  slide 37]
-\noindent\todo{Ako sa nám podarilo overiť validitu modelu}
-
-
 \subsection{Used technologies and procedures}
 
 The implementation of the project utilized the C++ programming language along with the SIMLIB library \cite{SIMLIB}.
@@ -210,13 +203,125 @@ the next day.
 
 \section{Experiments}
 
-\todo{Pipis vykonaných experimentov, ich dôvod, výsledky a zistenia}
+The goal of the experiments is to find the most cost efficient ratio of gas,
+electric, and autonomous vehicles with which the company can process most of the
+incoming parcels per day.
 
+You can find all simulation outputs in the \texttt{sim\_results/} directory.
+
+\subsection{Experiment 1}
+
+\subsubsection*{Goal}
+To confirm the most cost effective car type for transporting parcels.
+\subsubsection*{Simulation parameters}
+
+We ran the following simulations:
+\begin{verbatim}
+    ./main -g 1 -e 1 -a 1 -p 10000 -d 5 > sim_results/sim_1.txt
+    ./main -g 5 -e 5 -a 5 -p 40000 -d 5 > sim_results/sim_2.txt
+    ./main -g 10 -e 10 -a 10 -p 40000 -d 5 > sim_results/sim_3.txt
+\end{verbatim}
+
+\subsubsection*{Observations}
+
+We observed that the most cost efficient car type to transport parcels is by far
+the autonomous vehicle. This is due to the absence of the driver. It is followed
+by electric car and gas car respectively. The gap between electric cars and gas
+cars is a magnitude smaller than the gap between autonomous cars and electric
+cars. We can see that the biggest part of the operation cost is driver's salary.
+Electric car is more efficient than gas car due to electricity needed to pass
+the delivery distance being cheaper than the gas needed to pass the same
+distance. These results are not at all surprising but they serve as base for
+experiment 2.
+
+\subsection{Experiment 2}
+
+\subsubsection*{Goal}
+
+To determine the most cost effective combination of cars needed to process 40000
+parcels per day.
+
+\subsubsection*{Simulation parameters}
+
+\begin{verbatim}
+    ./main -g 5 -e 5 -a 5 -p 40000 -d 5 > sim_results/sim_4.txt
+    ./main -g 2 -e 5 -a 5 -p 40000 -d 5 > sim_results/sim_5.txt
+    ./main -g 2 -a 50 -p 40000 -d 5 > sim_results/sim_6.txt
+    ./main -g 2 -e 25 -p 40000 -d 5 > sim_results/sim_7.txt
+    ./main -g 2 -a 55 -p 40000 -d 5 > sim_results/sim_8.txt
+    ./main -g 2 -e 28 -p 40000 -d 5 > sim_results/sim_9.txt
+
+\end{verbatim}
+
+\subsubsection*{Observations}
+
+\begin{itemize}
+    \item Simulation 4:
+    \begin{itemize}
+        \item There were enough gas cars to deliver all parcels headed for
+        distant locations
+        \item There were not cars to deliver all parcels headed for address or
+        pick-up point
+    \end{itemize}
+    \item Simulation 5:
+    \begin{itemize}
+        \item Two gas cars kept up with delivering packages to distant locations
+        most of the time. Only on one day 19 parcels remained, but they were
+        delivered the following day.
+        \item autonomous cars are more cost efficient than the electric cars for
+        delivering parcels to near locations, thus they are making electric cars obsolete.
+    \end{itemize}
+    \item Simulation 6:
+    \begin{itemize}
+        \item 50 autonomous cars were almost able to keep up with parcels to
+        near locations
+    \end{itemize}
+    \item Simulation 7:
+    \begin{itemize}
+        \item 25 electric cars were able to handle approximately the same load
+        as 50 autonomous cars. While autonomous cars can deliver multiple
+        parcel batches each day, electric cars have higher capacity.
+    \end{itemize}
+    \item Simulation 8:
+    \begin{itemize}
+        \item 2 gas cars and 55 autonomous cars is able to keep up with
+        40000 parcels per day.
+    \end{itemize}
+    \item Simulation 9:
+    \begin{itemize}
+        \item 2 gas cars and 28 electric cars is also able to keep up with
+        40000 parcels per day.
+    \end{itemize}
+\end{itemize}
 
 \section{Conclusion}
 
-\todo{Čo sa nám podarilo experimentami dokázať}
+Experiments 1 and 2 showed that each car type has a use case:
+\begin{itemize}
+    \item Gas car: only car type that can deliver parcels over long distances.
+    \item Autonomous car: most cost efficient way to transport parcels over
+    short distances.
+    \item Electric car: can trasfer more parcels than autonomous car per day and
+    has lover operation cost than gas car.
+\end{itemize}
 
+The best ratio of gas, electric, and autonomous cars cannot be
+universally determined and depends on how many cars the depot can load at once.
+Our model presumes that each car can be loaded immediately when the car is
+available, hence running \verb|./main -g 2 -a 100 -p 100000| would mean that 102
+cars can be loaded simultaneusly. As far as gas cars are concerned, it is the
+most cost efficient to only have a number of gas cars that can deliver all
+parcels to distant locations, but not more. In case of 40000 parcels per day,
+this number is 2. The rest should be a ratio of
+electric/autonomous cars based on available depot loading spots. Electric cars
+require less loading spots but are not as cost efficient as autonomous cars. If
+loading spots are not an issue, then it is best to choose 2 gas cars and 55
+autonomous cars to handle 40000 parcels per day. If you want so save as many
+loading spots as possible, then it is best to choose 2 gas cars and 28 electric
+cars to handle 40000 parcels per day.
+
+This model can be improved to account for available loading spots and loading
+time to determine the best electric/autonomous cars ratio in the future.
 
 % Literature
 \newpage

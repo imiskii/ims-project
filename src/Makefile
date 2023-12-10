@@ -16,7 +16,7 @@ SRC_FILES := $(wildcard *.cpp)
 OBJ := $(patsubst %.cpp,$(BIN)/%.o,$(SRC_FILES))
 DEP := $(OBJ:.o=.d)
 
-TOPACK= *.cpp *.hpp Makefile ../doc/simulation_study.pdf ../doc/images
+TOPACK= *.cpp *.hpp Makefile ../doc/simulation_study.pdf ../doc/images ../sim_results
 
 PROGS=main
 OBJ=$(BIN)argparser.o $(BIN)main.o $(BIN)GasCar.o $(BIN)WorkDay.o $(BIN)ElectricCar.o $(BIN)AutonomousCar.o $(BIN)Car.o $(BIN)ParcelBatch.o $(BIN)Formatter.o

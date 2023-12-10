@@ -198,25 +198,27 @@ void WorkDay::Behavior() {
     }
 
     int parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
-    while(Time < WORKDAY_END) {
-        Enter(*autonomous_cars);
-        if(Time >= WorkDay::WORKDAY_END - AutonomousCar::maxOperationTime()) {
-            Leave(*autonomous_cars);
-            break;
-        }
-        bool address_allowed =
-            Time <= ADDRESS_DELIVERY_END - AutonomousCar::maxOperationTime();
-        if(AutonomousCar::canBeLoaded(
-            parcels,
-            parcel_load_size,
-            address_allowed)
-        ) {
-            __newAutonomousCar(parcel_load_size, address_allowed)->Activate();
-            // next batch size
-            parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
-        } else {
-            Leave(*autonomous_cars);
-            break;
+    if(autonomous_cars->Capacity() > 0) {
+        while(Time < WORKDAY_END) {
+            Enter(*autonomous_cars);
+            if(Time >= WorkDay::WORKDAY_END - AutonomousCar::maxOperationTime()) {
+                Leave(*autonomous_cars);
+                break;
+            }
+            bool address_allowed =
+                Time <= ADDRESS_DELIVERY_END - AutonomousCar::maxOperationTime();
+            if(AutonomousCar::canBeLoaded(
+                parcels,
+                parcel_load_size,
+                address_allowed)
+            ) {
+                __newAutonomousCar(parcel_load_size, address_allowed)->Activate();
+                // next batch size
+                parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
+            } else {
+                Leave(*autonomous_cars);
+                break;
+            }
         }
     }
 
