@@ -1,3 +1,11 @@
+/**
+ * @file WorkDay.cpp
+ * @author Adam Lazík (xlazik00@vutbr.cz)
+ * @brief Implementation of the WorkDay class methods
+ * @date 2023-12-10
+ *
+ */
+
 #include "WorkDay.hpp"
 #include "consts.hpp"
 #include "GasCar.hpp"
@@ -9,14 +17,18 @@
 
 using namespace std;
 
-double WorkDay::generateParcelsToDistantLocationRatio() {
+/* private static methods */
+
+double WorkDay::__generateParcelsToDistantLocationRatio() {
     return Uniform(
         PARCELS_TO_DISTANT_LOCATION_MIN_RATIO,
         PARCELS_TO_DISTANT_LOCATION_MAX_RATIO
     );
 }
 
-GasCar *WorkDay::newGasCar(const unsigned long batch_size) {
+/* private non-static methods */
+
+GasCar *WorkDay::__newGasCar(const unsigned long batch_size) {
     return new GasCar(
         parcels,
         batch_size,
@@ -26,7 +38,7 @@ GasCar *WorkDay::newGasCar(const unsigned long batch_size) {
     );
 }
 
-ElectricCar *WorkDay::newElectricCar(const unsigned long batch_size) {
+ElectricCar *WorkDay::__newElectricCar(const unsigned long batch_size) {
     return new ElectricCar(
         parcels,
         batch_size,
@@ -36,7 +48,7 @@ ElectricCar *WorkDay::newElectricCar(const unsigned long batch_size) {
     );
 }
 
-AutonomousCar *WorkDay::newAutonomousCar(
+AutonomousCar *WorkDay::__newAutonomousCar(
     const unsigned long batch_size, const bool address_allowed
 ) {
     return new AutonomousCar(
@@ -49,7 +61,39 @@ AutonomousCar *WorkDay::newAutonomousCar(
     );
 }
 
-void WorkDay::printStart() {
+Car *WorkDay::__selectBestCar() {
+    int parcel_load_size = Car::generateBatchSize();
+    int parcel_load_size_autonomous =
+        AutonomousCar::generateBatchSizeAutonomous();
+
+    Car *car = nullptr;
+
+    if(
+        !gas_cars->Full() &&
+        (parcels.toDistantLocation() ||
+        (autonomous_cars->Full() && electric_cars->Full())) &&
+        GasCar::canBeLoaded(parcels, parcel_load_size)
+    ) {
+        Enter(*gas_cars);
+        car = __newGasCar(parcel_load_size);
+    } else if(
+        AutonomousCar::canBeLoaded(parcels, parcel_load_size_autonomous, true)
+        && !autonomous_cars->Full()
+    ) {
+        Enter(*autonomous_cars);
+        car = __newAutonomousCar(parcel_load_size_autonomous, true);
+    } else if (
+        !electric_cars->Full() &&
+        ElectricCar::canBeLoaded(parcels, parcel_load_size)
+    ) {
+        Enter(*electric_cars);
+        car = __newElectricCar(parcel_load_size);
+    }
+
+    return car;
+}
+
+void WorkDay::__printStart() {
     cout << "\n=== WORKDAY START ===\n";
     Formatter::printHeading("Parcels to ship");
     parcels.print();
@@ -58,7 +102,7 @@ void WorkDay::printStart() {
     );
 }
 
-void WorkDay::printStats() {
+void WorkDay::__printStats() {
     ParcelBatch parcels_shipped = start_parcels - parcels;
     Formatter::printHeading("Parcels shipped");
     parcels_shipped.print();
@@ -88,6 +132,8 @@ void WorkDay::printStats() {
     Formatter::printStatistic("Total cost: " + to_string(total_cost->Sum()));
 }
 
+/* public methods */
+
 WorkDay::WorkDay(
     int parcels,
     int gas_cars,
@@ -109,13 +155,13 @@ WorkDay::WorkDay(
 
     /* parcels to address */
     unsigned long p_to_distant_address = round(
-        parcels_to_address * generateParcelsToDistantLocationRatio()
+        parcels_to_address * __generateParcelsToDistantLocationRatio()
     );
     unsigned long p_to_near_address = parcels_to_address - p_to_distant_address;
 
     /* parcels to zbox */
     unsigned long p_to_distant_zbox = round(
-        parcels_to_zbox * generateParcelsToDistantLocationRatio()
+        parcels_to_zbox * __generateParcelsToDistantLocationRatio()
     );
     unsigned long p_to_near_zbox = parcels_to_zbox - p_to_distant_zbox;
 
@@ -128,12 +174,12 @@ WorkDay::WorkDay(
 
     this->parcels =  ParcelBatch(start_parcels);
 
-    printStart();
+    __printStart();
 }
 
 WorkDay::~WorkDay() {
     cout << "=== WORKDAY ENDED ===\n";
-    printStats();
+    __printStats();
 
     *parcels_remaining = parcels;
 
@@ -148,7 +194,7 @@ WorkDay::~WorkDay() {
 
 void WorkDay::Behavior() {
     Car *available_car;
-    while((available_car = selectBestCar()) != nullptr) {
+    while((available_car = __selectBestCar()) != nullptr) {
         available_car->Activate();
     }
 
@@ -166,7 +212,7 @@ void WorkDay::Behavior() {
             parcel_load_size,
             address_allowed)
         ) {
-            newAutonomousCar(parcel_load_size, address_allowed)->Activate();
+            __newAutonomousCar(parcel_load_size, address_allowed)->Activate();
             // next batch size
             parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
         } else {
@@ -178,42 +224,4 @@ void WorkDay::Behavior() {
     Enter(*autonomous_cars, autonomous_cars->Capacity());
     Enter(*electric_cars, electric_cars->Capacity());
     Enter(*gas_cars, gas_cars->Capacity());
-}
-
-bool WorkDay::carAvailable() {
-    return !(
-        gas_cars->Full() && electric_cars->Full() && autonomous_cars->Full()
-    );
-}
-
-Car *WorkDay::selectBestCar() {
-    int parcel_load_size = Car::generateBatchSize();
-    int parcel_load_size_autonomous =
-        AutonomousCar::generateBatchSizeAutonomous();
-
-    Car *car = nullptr;
-
-    if(
-        !gas_cars->Full() &&
-        (parcels.toDistantLocation() ||
-        (autonomous_cars->Full() && electric_cars->Full())) &&
-        GasCar::canBeLoaded(parcels, parcel_load_size)
-    ) {
-        Enter(*gas_cars);
-        car = newGasCar(parcel_load_size);
-    } else if(
-        AutonomousCar::canBeLoaded(parcels, parcel_load_size_autonomous, true)
-        && !autonomous_cars->Full()
-    ) {
-        Enter(*autonomous_cars);
-        car = newAutonomousCar(parcel_load_size_autonomous, true);
-    } else if (
-        !electric_cars->Full() &&
-        ElectricCar::canBeLoaded(parcels, parcel_load_size)
-    ) {
-        Enter(*electric_cars);
-        car = newElectricCar(parcel_load_size);
-    }
-
-    return car;
 }

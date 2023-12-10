@@ -17,11 +17,25 @@ class Formatter
 {
 public:
     /**
-     * @brief 
-     *
+     * @brief print the same separator as is used in Stat.Output()
      */
     static void printSeparator();
+
+    /**
+     * @brief print string to separator length surrounded by '|'
+     * @param str string to print
+     */
     static void align(const string str);
+
+    /**
+     * @brief print separator followed by aligned string
+     * @param title string to print
+     */
     static void printHeading(const string title);
+
+    /**
+     * @brief print heading followed by another separator
+     * @param stat string to print
+     */
     static void printStatistic(const string stat);
 };

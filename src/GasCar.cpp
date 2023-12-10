@@ -8,6 +8,14 @@
 
 #include "GasCar.hpp"
 
+/* static methods */
+
+bool GasCar::canBeLoaded(ParcelBatch &parcels, const unsigned long batch_size) {
+    return parcels.size(true, true) >= batch_size;
+}
+
+/* non-static methods */
+
 GasCar::GasCar(
     ParcelBatch &parcels,
     unsigned long batch_size,
@@ -22,13 +30,7 @@ GasCar::GasCar(
     operation_cost,
     total_cost,
     garage
-)
-{
-}
-
-bool GasCar::canBeLoaded(ParcelBatch &parcels, const unsigned long batch_size) {
-    return parcels.size(true, true) >= batch_size;
-}
+) {}
 
 double GasCar::calculateOperationCost() {
     double distance, distance_deviation;

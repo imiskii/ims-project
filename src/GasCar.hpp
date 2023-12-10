@@ -1,18 +1,15 @@
 /**
  * @file GasCar.hpp
  * @author Michal Ľaš (xlasmi00)
- * @brief header file for GasCar.c
+ * @brief header file for GasCar.cpp
  * @date 2023-12-05
  *
  */
 
-
-#include "Car.hpp"
-
-
 #ifndef GASCAR_H
 #define GASCAR_H
 
+#include "Car.hpp"
 
 using namespace std;
 
@@ -34,19 +31,22 @@ private:
     static constexpr double CONSUMPTION = 0.088;
 
 public:
-    /* Public Attributes */
+    /**
+     * @brief check AutonomousCar::canBeLoaded()
+     */
+    static bool canBeLoaded(
+        ParcelBatch &parcels, const unsigned long batch_size
+    );
 
-    /* Public Methods */
+    /**
+     * @brief check Car::Car()
+     */
     GasCar(
         ParcelBatch &parcels,
         unsigned long batch_size,
         Stat *operation_cost,
         Stat *total_cost,
         Store *garage
-    );
-
-    static bool canBeLoaded(
-        ParcelBatch &parcels, const unsigned long batch_size
     );
 
     double calculateOperationCost() override;

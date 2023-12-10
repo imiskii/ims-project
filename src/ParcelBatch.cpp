@@ -1,3 +1,11 @@
+/**
+ * @file ParcelBatch.cpp
+ * @author Adam Lazík (xlazik00@vutbr.cz)
+ * @brief Implementation of the ParcelBatch class methods
+ * @date 2023-12-10
+ *
+ */
+
 #include "ParcelBatch.hpp"
 #include <algorithm>
 #include "Formatter.hpp"
