@@ -15,17 +15,20 @@ class AutonomousCar : public Car
 {
 private:
     // 0.25kWh / 100km
-    static constexpr double CONSUMPTION = 0.0025; // TODO: check value
+    static constexpr double CONSUMPTION = 0.0025;
 
     // time in hours
     static const int MIN_DELIVERY_TIME = 2;
     static const int MAX_DELIVERY_TIME = 6;
-    static constexpr double RECHARGE_TIME = 0.5; // TODO: check value
 
     // Average parcel batch size: 500
     // Deviation: 100
     static const int MIN_PARCEL_BATCH_SIZE_AUTONOMOUS = 400;
     static const int MAX_PARCEL_BATCH_SIZE_AUTONOMOUS = 600;
+
+    // loading time in hours
+    static const int MIN_LOADING_TIME = 0.5;
+    static const int MAX_LOADING_TIME = 1;
 
 public:
     /**

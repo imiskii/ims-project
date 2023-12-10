@@ -12,7 +12,7 @@
 /* static methods */
 
 int AutonomousCar::maxOperationTime() {
-    return RECHARGE_TIME + MAX_DELIVERY_TIME;
+    return MAX_LOADING_TIME + MAX_DELIVERY_TIME;
 }
 
 bool AutonomousCar::canBeLoaded(
@@ -49,7 +49,10 @@ AutonomousCar::AutonomousCar(
 ) {}
 
 void AutonomousCar::Behavior() {
-    Wait(Uniform(MIN_DELIVERY_TIME, MAX_DELIVERY_TIME) + RECHARGE_TIME);
+    Wait(
+        Uniform(MIN_DELIVERY_TIME, MAX_DELIVERY_TIME) +
+        Uniform(MIN_LOADING_TIME, MAX_LOADING_TIME)
+    );
     Car::Behavior();
 }
 
