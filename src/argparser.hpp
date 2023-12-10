@@ -113,6 +113,10 @@ public:
      */
     arguments getArguments();
 
+    /**
+     * @brief Print parsed argumnets
+     *
+     */
     void printArgs();
 };
 

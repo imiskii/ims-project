@@ -26,12 +26,15 @@ public:
 
     bool toAddress();
 
-    unsigned long size(const bool distant_location_allowed);
+    unsigned long size(
+        const bool distant_location_allowed, const bool address_allowed
+    );
 
     void load(
         ParcelBatch &batch,
         unsigned long batch_size,
-        const bool distant_location_allowed
+        const bool distant_location_allowed,
+        const bool address_allowed
     );
 
     void print();

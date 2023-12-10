@@ -32,13 +32,20 @@ private:
     Car *selectBestCar();
 
     GasCar *newGasCar(const unsigned long batch_size);
-    AutonomousCar *newAutonomousCar(const unsigned long batch_size);
+    AutonomousCar *newAutonomousCar(
+        const unsigned long batch_size, const bool address_allowed
+    );
     ElectricCar *newElectricCar(const unsigned long batch_size);
     void printStart();
     void printStats();
 
 public:
-    static const int WORKDAY_END = 24; // 24 hours in a work day
+    static const int WORKDAY_START = 8; // work day starts at 8:00
+    // parcels to addresses can only be delivered until 18:00
+    static const int ADDRESS_DELIVERY_END = 18;
+    // workday ends after 24 hours
+    static const int WORKDAY_END = WORKDAY_START + 24;
+
 
     WorkDay(
         int parcels,

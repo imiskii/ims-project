@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     ParcelBatch parcels_remaining;
 
     for (size_t i = 0; i < args.days; ++i) {
-        Init(0, WorkDay::WORKDAY_END);
+        Init(WorkDay::WORKDAY_START, WorkDay::WORKDAY_END);
         (new WorkDay(
             args.parcels,
             args.gas_cars,
