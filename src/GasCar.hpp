@@ -46,7 +46,6 @@ public:
         Store *garage
     );
 
-    ~GasCar();
     static bool canBeLoaded(
         ParcelBatch &parcels, const unsigned long batch_size
     );

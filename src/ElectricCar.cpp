@@ -18,10 +18,6 @@ ElectricCar::ElectricCar(
 {
 }
 
-ElectricCar::~ElectricCar()
-{
-}
-
 double ElectricCar::calculateOperationCost() {
     return Uniform(MIN_DAILY_COURIER_SALARY, MAX_DAILY_COURIER_SALARY) +
         Normal(SHORT_DISTANCE, SHORT_DISTANCE_DEVIATION)

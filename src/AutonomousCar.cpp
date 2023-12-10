@@ -23,10 +23,6 @@ AutonomousCar::AutonomousCar(
 {
 }
 
-AutonomousCar::~AutonomousCar()
-{
-}
-
 bool AutonomousCar::canBeLoaded(ParcelBatch &parcels, const unsigned long batch_size) {
     return parcels.size(false) >= batch_size;
 }

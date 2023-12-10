@@ -17,7 +17,6 @@ public:
         Stat *total_cost,
         Store *garage
     );
-    ~ElectricCar();
     double calculateOperationCost() override;
     static bool canBeLoaded(
         ParcelBatch &parcels, const unsigned long batch_size

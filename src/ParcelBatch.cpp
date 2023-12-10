@@ -2,9 +2,6 @@
 #include <algorithm>
 #include "Formatter.hpp"
 
-//DEBUG
-#include <iostream>
-
 using namespace std;
 
 ParcelBatch::ParcelBatch(

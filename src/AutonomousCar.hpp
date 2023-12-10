@@ -29,7 +29,6 @@ public:
         Stat *total_cost,
         Store *garage
     );
-    ~AutonomousCar();
     static bool canBeLoaded(
         ParcelBatch &parcels, const unsigned long batch_size
     );

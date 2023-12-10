@@ -113,7 +113,6 @@ arguments ArgParser::getArguments()
     return this->args;
 }
 
-// DEBUG PRINT
 void ArgParser::printArgs() {
     if(!__parsed) {
         return;

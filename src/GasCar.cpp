@@ -26,10 +26,6 @@ GasCar::GasCar(
 {
 }
 
-GasCar::~GasCar()
-{
-}
-
 bool GasCar::canBeLoaded(ParcelBatch &parcels, const unsigned long batch_size) {
     return parcels.size(true) >= batch_size;
 }

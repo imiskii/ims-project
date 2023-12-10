@@ -1,9 +1,6 @@
 #include "Car.hpp"
 #include <cmath> //round()
 
-//DEBUG
-#include <iostream>
-
 using namespace std;
 
 Car::Car(
@@ -21,21 +18,11 @@ Car::Car(
     this->parcels.load(parcels, batch_size, distant_location_allowed);
 }
 
-Car::~Car()
-{
-}
-
 void Car::Behavior() {
-    //DEBUG
-    // cerr << "car.Behavior()\n";
     const double op_cost = calculateOperationCost();
     (*operation_cost)(op_cost);
     (*total_cost)(op_cost);
     Leave(*garage);
-}
-
-double Car::calculateOperationCost() {
-    return 0; // overwritten in child classes
 }
 
 int Car::generateBatchSize() {

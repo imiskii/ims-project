@@ -43,8 +43,7 @@ public:
         Store *garage
     );
 
-    ~Car();
-    virtual double calculateOperationCost();
+    virtual double calculateOperationCost() = 0;
     void Behavior() override;
     static int generateBatchSize();
 };
