@@ -17,14 +17,84 @@ double WorkDay::generateParcelsToDistantLocationRatio() {
     );
 }
 
+GasCar *WorkDay::newGasCar(const unsigned long batch_size) {
+    return new GasCar(
+        parcels,
+        batch_size,
+        true,
+        gas_car_operation_cost,
+        total_cost,
+        gas_cars
+    );
+}
+
+ElectricCar *WorkDay::newElectricCar(const unsigned long batch_size) {
+    return new ElectricCar(
+        parcels,
+        batch_size,
+        false,
+        electric_car_operation_cost,
+        total_cost,
+        electric_cars
+    );
+}
+
+AutonomousCar *WorkDay::newAutonomousCar(const unsigned long batch_size) {
+    return new AutonomousCar(
+        parcels,
+        batch_size,
+        false,
+        autonomous_car_operation_cost,
+        total_cost,
+        autonomous_cars
+    );
+}
+
+void WorkDay::printStart() {
+    cout << "\n=== WORKDAY START ===\n";
+    Formatter::printHeading("Parcels to ship");
+    parcels.print();
+    Formatter::printStatistic(
+        "Total parcels to ship: " + to_string(parcels.size(true))
+    );
+}
+
+void WorkDay::printStats() {
+    ParcelBatch parcels_shipped = start_parcels - parcels;
+    Formatter::printHeading("Parcels shipped");
+    parcels_shipped.print();
+    Formatter::printStatistic(
+        "Total parcels shipped: " + to_string(parcels_shipped.size(true))
+    );
+    Formatter::printHeading("Parcels remaining");\
+    parcels.print();
+    Formatter::printStatistic(
+        "Total parcels remaining: " + to_string(parcels.size(true))
+    );
+    gas_car_operation_cost->Output();
+    Formatter::printStatistic(
+        "Total gas car operation cost: " +
+        to_string(gas_car_operation_cost->Sum())
+    );
+    electric_car_operation_cost->Output();
+    Formatter::printStatistic(
+        "Total electric car operation cost: " +
+        to_string(electric_car_operation_cost->Sum())
+    );
+    autonomous_car_operation_cost->Output();
+    Formatter::printStatistic(
+        "Total autonomous car operation cost: " +
+        to_string(autonomous_car_operation_cost->Sum())
+    );
+    Formatter::printStatistic("Total cost: " + to_string(total_cost->Sum()));
+}
+
 WorkDay::WorkDay(
     int parcels,
     int gas_cars,
     int electric_cars,
     int autonomous_cars
 ) {
-    cout << "\n=== WORKDAY START ===\n";
-
     this->gas_cars = new Store("Gas cars", gas_cars);
     this->electric_cars = new Store("Electric cars", electric_cars);
     this->autonomous_cars = new Store("Autonomous cars", autonomous_cars);
@@ -58,42 +128,12 @@ WorkDay::WorkDay(
     this->parcels = ParcelBatch(start_parcels);
 
     resetFlags();
-    Formatter::printHeading("Parcels to ship");
-    this->parcels.print();
-    Formatter::printStatistic(
-        "Total parcels to ship: " + to_string(this->parcels.size(true))
-    );
+    printStart();
 }
 
 WorkDay::~WorkDay() {
     cout << "=== WORKDAY ENDED ===\n";
-    ParcelBatch parcels_shipped = start_parcels - parcels;
-    Formatter::printHeading("Parcels shipped");
-    parcels_shipped.print();
-    Formatter::printStatistic(
-        "Total parcels shipped: " + to_string(parcels_shipped.size(true))
-    );
-    Formatter::printHeading("Parcels remaining");\
-    parcels.print();
-    Formatter::printStatistic(
-        "Total parcels remaining: " + to_string(parcels.size(true))
-    );
-    gas_car_operation_cost->Output();
-    Formatter::printStatistic(
-        "Total gas car operation cost: " +
-        to_string(gas_car_operation_cost->Sum())
-    );
-    electric_car_operation_cost->Output();
-    Formatter::printStatistic(
-        "Total electric car operation cost: " +
-        to_string(electric_car_operation_cost->Sum())
-    );
-    autonomous_car_operation_cost->Output();
-    Formatter::printStatistic(
-        "Total autonomous car operation cost: " +
-        to_string(autonomous_car_operation_cost->Sum())
-    );
-    Formatter::printStatistic("Total cost: " + to_string(total_cost->Sum()));
+    printStats();
 
     delete gas_cars;
     delete electric_cars;
@@ -121,9 +161,7 @@ void WorkDay::Behavior() {
             Leave(*autonomous_cars);
             break;
         }
-        (new AutonomousCar(
-            parcels, parcel_load_size, false, autonomous_car_operation_cost, total_cost, autonomous_cars
-        ))->Activate();
+        newAutonomousCar(parcel_load_size)->Activate();
         parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
     }
 
@@ -152,25 +190,19 @@ Car *WorkDay::selectBestCar() {
         GasCar::canBeLoaded(parcels, parcel_load_size)
     ) {
         Enter(*gas_cars);
-        car = new GasCar(
-            parcels, parcel_load_size, true, gas_car_operation_cost, total_cost, gas_cars
-        );
+        car = newGasCar(parcel_load_size);
     } else if(
         AutonomousCar::canBeLoaded(parcels, parcel_load_size_autonomous) &&
         !autonomous_cars->Full()
     ) {
         Enter(*autonomous_cars);
-        car = new AutonomousCar(
-            parcels, parcel_load_size_autonomous, false, autonomous_car_operation_cost, total_cost, autonomous_cars
-        );
+        car = newAutonomousCar(parcel_load_size_autonomous);
     } else if (
         !electric_cars->Full() &&
         ElectricCar::canBeLoaded(parcels, parcel_load_size)
     ) {
         Enter(*electric_cars);
-        car = new ElectricCar(
-            parcels, parcel_load_size, false, electric_car_operation_cost, total_cost, electric_cars
-        );
+        car = newElectricCar(parcel_load_size);
     }
 
     //DEBUG

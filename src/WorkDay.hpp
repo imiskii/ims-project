@@ -2,7 +2,9 @@
 #pragma once
 
 #include <simlib.h>
-#include "Car.hpp"
+#include "GasCar.hpp"
+#include "ElectricCar.hpp"
+#include "AutonomousCar.hpp"
 #include "ParcelBatch.hpp"
 
 class WorkDay : public Process
@@ -31,6 +33,12 @@ private:
     bool carAvailable();
     Car *selectBestCar();
     void resetFlags();
+
+    GasCar *newGasCar(const unsigned long batch_size);
+    AutonomousCar *newAutonomousCar(const unsigned long batch_size);
+    ElectricCar *newElectricCar(const unsigned long batch_size);
+    void printStart();
+    void printStats();
 
 public:
     static const int WORKDAY_END = 24; // 24 hours in a work day
