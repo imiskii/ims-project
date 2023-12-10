@@ -13,7 +13,6 @@ public:
         ParcelBatch &parcels,
         unsigned long batch_size,
         bool distant_location_allowed,
-        Stat *parcels_shipped,
         Stat *operation_cost,
         Stat *total_cost,
         Store *garage

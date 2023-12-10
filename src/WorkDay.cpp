@@ -28,7 +28,6 @@ WorkDay::WorkDay(
     this->gas_cars = new Store("Gas cars", gas_cars);
     this->electric_cars = new Store("Electric cars", electric_cars);
     this->autonomous_cars = new Store("Autonomous cars", autonomous_cars);
-    parcels_shipped = new Stat("Parcels shipped");
     gas_car_operation_cost = new Stat("Gas car operation cost");
     electric_car_operation_cost = new Stat("Electric car operation cost");
     autonomous_car_operation_cost = new Stat("Autonomous car operation cost");
@@ -96,7 +95,6 @@ WorkDay::~WorkDay() {
     delete gas_cars;
     delete electric_cars;
     delete autonomous_cars;
-    delete this->parcels_shipped;
     delete electric_car_operation_cost;
     delete autonomous_car_operation_cost;
     delete gas_car_operation_cost;
@@ -121,7 +119,7 @@ void WorkDay::Behavior() {
             break;
         }
         (new AutonomousCar(
-            parcels, parcel_load_size, false, parcels_shipped, autonomous_car_operation_cost, total_cost, autonomous_cars
+            parcels, parcel_load_size, false, autonomous_car_operation_cost, total_cost, autonomous_cars
         ))->Activate();
         parcel_load_size = AutonomousCar::generateBatchSizeAutonomous();
     }
@@ -152,7 +150,7 @@ Car *WorkDay::selectBestCar() {
     ) {
         Enter(*gas_cars);
         car = new GasCar(
-            parcels, parcel_load_size, true, parcels_shipped, gas_car_operation_cost, total_cost, gas_cars
+            parcels, parcel_load_size, true, gas_car_operation_cost, total_cost, gas_cars
         );
     } else if(
         AutonomousCar::canBeLoaded(parcels, parcel_load_size_autonomous) &&
@@ -160,7 +158,7 @@ Car *WorkDay::selectBestCar() {
     ) {
         Enter(*autonomous_cars);
         car = new AutonomousCar(
-            parcels, parcel_load_size_autonomous, false, parcels_shipped, autonomous_car_operation_cost, total_cost, autonomous_cars
+            parcels, parcel_load_size_autonomous, false, autonomous_car_operation_cost, total_cost, autonomous_cars
         );
     } else if (
         !electric_cars->Full() &&
@@ -168,7 +166,7 @@ Car *WorkDay::selectBestCar() {
     ) {
         Enter(*electric_cars);
         car = new ElectricCar(
-            parcels, parcel_load_size, false, parcels_shipped, electric_car_operation_cost, total_cost, electric_cars
+            parcels, parcel_load_size, false, electric_car_operation_cost, total_cost, electric_cars
         );
     }
 

@@ -29,7 +29,6 @@ protected:
     static const int MAX_PARCEL_BATCH_SIZE = 1574;
 
     ParcelBatch parcels;
-    Stat *parcels_shipped;
     Stat *operation_cost;
     Stat *total_cost;
     Store *garage;
@@ -39,7 +38,6 @@ public:
         ParcelBatch &parcels,
         unsigned long batch_size,
         bool distant_location_allowed,
-        Stat *parcels_shipped,
         Stat *operation_cost,
         Stat *total_cost,
         Store *garage

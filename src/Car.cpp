@@ -10,12 +10,10 @@ Car::Car(
     ParcelBatch &parcels,
     unsigned long batch_size,
     bool distant_location_allowed,
-    Stat *parcels_shipped,
     Stat *operation_cost,
     Stat *total_cost,
     Store *garage
 ) :
-    parcels_shipped(parcels_shipped),
     operation_cost(operation_cost),
     total_cost(total_cost),
     garage(garage)
@@ -33,7 +31,6 @@ void Car::Behavior() {
     const double op_cost = calculateOperationCost();
     (*operation_cost)(op_cost);
     (*total_cost)(op_cost);
-    (*parcels_shipped)(parcels.size(true));
     Leave(*garage);
 }
 

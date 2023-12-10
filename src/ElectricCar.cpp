@@ -4,7 +4,6 @@ ElectricCar::ElectricCar(
     ParcelBatch &parcels,
     unsigned long batch_size,
     bool distant_location_allowed,
-    Stat *parcels_shipped,
     Stat *operation_cost,
     Stat *total_cost,
     Store *garage
@@ -12,7 +11,6 @@ ElectricCar::ElectricCar(
     parcels,
     batch_size,
     distant_location_allowed,
-    parcels_shipped,
     operation_cost,
     total_cost,
     garage

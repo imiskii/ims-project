@@ -21,7 +21,6 @@ private:
     Store *electric_cars;
     Store *autonomous_cars;
 
-    Stat *parcels_shipped;
     Stat *gas_car_operation_cost;
     Stat *electric_car_operation_cost;
     Stat *autonomous_car_operation_cost;
