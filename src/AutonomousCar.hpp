@@ -8,7 +8,7 @@ private:
     // 0.084kWh / 100km
     static constexpr double CONSUMPTION = 0.00084; // TODO: check value
 
-public:
+    // time in hours
     static const int MIN_DELIVERY_TIME = 2;
     static const int MAX_DELIVERY_TIME = 6;
     static constexpr double RECHARGE_TIME = 0.5; // TODO: check value
@@ -17,6 +17,9 @@ public:
     // Deviation: 100
     static const int MIN_PARCEL_BATCH_SIZE_AUTONOMOUS = 400;
     static const int MAX_PARCEL_BATCH_SIZE_AUTONOMOUS = 600;
+
+public:
+    static int maxOperationTime();
 
     AutonomousCar(
         ParcelBatch &parcels,

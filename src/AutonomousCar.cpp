@@ -1,6 +1,10 @@
 #include "AutonomousCar.hpp"
 #include <cmath> // round
 
+int AutonomousCar::maxOperationTime() {
+    return RECHARGE_TIME + MAX_DELIVERY_TIME;
+}
+
 AutonomousCar::AutonomousCar(
     ParcelBatch &parcels,
     unsigned long batch_size,

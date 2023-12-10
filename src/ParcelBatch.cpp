@@ -18,7 +18,6 @@ ParcelBatch::ParcelBatch(
     parcels_to_distant_zbox(parcels_to_distant_zbox),
     parcels_to_near_zbox(parcels_to_near_zbox)
 {
-    updateSize();
 }
 
 ParcelBatch ParcelBatch::operator-(const ParcelBatch &batch) {
@@ -27,6 +26,15 @@ ParcelBatch ParcelBatch::operator-(const ParcelBatch &batch) {
         parcels_to_near_address - batch.parcels_to_near_address,
         parcels_to_distant_zbox - batch.parcels_to_distant_zbox,
         parcels_to_near_zbox - batch.parcels_to_near_zbox
+    );
+}
+
+ParcelBatch ParcelBatch::operator+(const ParcelBatch &batch) {
+    return ParcelBatch(
+        parcels_to_distant_address + batch.parcels_to_distant_address,
+        parcels_to_near_address + batch.parcels_to_near_address,
+        parcels_to_distant_zbox + batch.parcels_to_distant_zbox,
+        parcels_to_near_zbox + batch.parcels_to_near_zbox
     );
 }
 
@@ -71,28 +79,11 @@ void ParcelBatch::load(
         unsigned long partial_load_size = min(
             load_size, *unloading_parcel_type
         );
-        //DEBUG
-        // cerr << "load size: " << load_size
-        //      << "\nunloading parcel size: " << *unloading_parcel_type;
-        // cerr << "\nloading parcels: " << partial_load_size << "\n";
-        //END DEBUG
 
         *loading_parcel_type += partial_load_size;
         *unloading_parcel_type -= partial_load_size;
         load_size -= partial_load_size;
-
-        batch.updateSize();
-        updateSize();
     }
-    // DEBUG
-    //print();
-}
-
-void ParcelBatch::updateSize() {
-    parcels_total = parcels_to_distant_address +
-        parcels_to_distant_zbox +
-        parcels_to_near_address +
-        parcels_to_near_zbox;
 }
 
 void ParcelBatch::print() {

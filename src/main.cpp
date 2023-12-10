@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
     arg_parser->printArgs();
 
     RandomSeed(time(nullptr));
+    ParcelBatch parcels_remaining;
 
     for (size_t i = 0; i < args.days; ++i) {
         Init(0, WorkDay::WORKDAY_END);
@@ -28,7 +29,8 @@ int main(int argc, char **argv) {
             args.parcels,
             args.gas_cars,
             args.electric_cars,
-            args.autonomous_cars)
+            args.autonomous_cars,
+            &parcels_remaining)
         )->Activate();
         Run();
     }

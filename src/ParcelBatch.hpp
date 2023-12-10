@@ -9,7 +9,6 @@ public:
     unsigned long parcels_to_near_address = 0;
     unsigned long parcels_to_distant_zbox = 0;
     unsigned long parcels_to_near_zbox = 0;
-    unsigned long parcels_total = 0;
 
     ParcelBatch() = default;
     ParcelBatch(const ParcelBatch &batch) = default;
@@ -21,6 +20,7 @@ public:
     );
 
     ParcelBatch operator-(const ParcelBatch &batch);
+    ParcelBatch operator+(const ParcelBatch &batch);
 
     bool toDistantLocation();
 
@@ -35,6 +35,4 @@ public:
     );
 
     void print();
-
-    void updateSize();
 };

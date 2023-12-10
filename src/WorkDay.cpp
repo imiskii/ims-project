@@ -1,4 +1,3 @@
-
 #include "WorkDay.hpp"
 #include "consts.hpp"
 #include "GasCar.hpp"
@@ -93,8 +92,10 @@ WorkDay::WorkDay(
     int parcels,
     int gas_cars,
     int electric_cars,
-    int autonomous_cars
-) {
+    int autonomous_cars,
+    ParcelBatch *parcels_remaining
+) : parcels_remaining(parcels_remaining)
+{
     this->gas_cars = new Store("Gas cars", gas_cars);
     this->electric_cars = new Store("Electric cars", electric_cars);
     this->autonomous_cars = new Store("Autonomous cars", autonomous_cars);
@@ -125,15 +126,16 @@ WorkDay::WorkDay(
         p_to_near_zbox
     );
 
-    this->parcels = ParcelBatch(start_parcels);
+    this->parcels =  ParcelBatch(start_parcels) + *parcels_remaining;
 
-    resetFlags();
     printStart();
 }
 
 WorkDay::~WorkDay() {
     cout << "=== WORKDAY ENDED ===\n";
     printStats();
+
+    *parcels_remaining = parcels;
 
     delete gas_cars;
     delete electric_cars;
@@ -142,7 +144,6 @@ WorkDay::~WorkDay() {
     delete autonomous_car_operation_cost;
     delete gas_car_operation_cost;
     delete total_cost;
-    //cerr << "WorkdDay deleted.\n";
 }
 
 void WorkDay::Behavior() {
@@ -155,9 +156,7 @@ void WorkDay::Behavior() {
 
     while(AutonomousCar::canBeLoaded(parcels, parcel_load_size)) {
         Enter(*autonomous_cars);
-        if(Time > 24 - AutonomousCar::MAX_DELIVERY_TIME -
-            AutonomousCar::RECHARGE_TIME
-        ) {
+        if(Time >= WorkDay::WORKDAY_END - AutonomousCar::maxOperationTime()) {
             Leave(*autonomous_cars);
             break;
         }
@@ -185,7 +184,7 @@ Car *WorkDay::selectBestCar() {
 
     if(
         !gas_cars->Full() &&
-        (to_distant_location ||
+        (parcels.toDistantLocation() ||
         (autonomous_cars->Full() && electric_cars->Full())) &&
         GasCar::canBeLoaded(parcels, parcel_load_size)
     ) {
@@ -205,13 +204,5 @@ Car *WorkDay::selectBestCar() {
         car = newElectricCar(parcel_load_size);
     }
 
-    //DEBUG
-    //cerr << "returning car.\n";
-    resetFlags();
     return car;
-}
-
-void WorkDay::resetFlags() {
-    to_address = parcels.toAddress();
-    to_distant_location = parcels.toDistantLocation();
 }

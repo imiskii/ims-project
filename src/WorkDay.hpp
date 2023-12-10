@@ -15,9 +15,7 @@ private:
 
     ParcelBatch start_parcels;
     ParcelBatch parcels;
-
-    bool to_address;
-    bool to_distant_location;
+    ParcelBatch *parcels_remaining;
 
     Store *gas_cars;
     Store *electric_cars;
@@ -32,7 +30,6 @@ private:
 
     bool carAvailable();
     Car *selectBestCar();
-    void resetFlags();
 
     GasCar *newGasCar(const unsigned long batch_size);
     AutonomousCar *newAutonomousCar(const unsigned long batch_size);
@@ -43,7 +40,13 @@ private:
 public:
     static const int WORKDAY_END = 24; // 24 hours in a work day
 
-    WorkDay(int parcels, int gas_cars, int electric_cars, int autonomous_cars);
+    WorkDay(
+        int parcels,
+        int gas_cars,
+        int electric_cars,
+        int autonomous_cars,
+        ParcelBatch *parcels_remaining
+    );
     ~WorkDay() override;
     void Behavior() override;
 };
