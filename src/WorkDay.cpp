@@ -5,9 +5,8 @@
 #include "ElectricCar.hpp"
 #include "AutonomousCar.hpp"
 #include <cmath>
-
-//DEBUG
 #include <iostream>
+#include "Formatter.hpp"
 
 using namespace std;
 
@@ -60,52 +59,39 @@ WorkDay::WorkDay(
     this->parcels = ParcelBatch(start_parcels);
 
     resetFlags();
-
-    cout << "+----------------------------------------------------------+\n"
-         << "| Parcels to ship                                          |\n"
-         << "+----------------------------------------------------------+\n";
+    Formatter::printHeading("Parcels to ship");
     this->parcels.print();
 }
 
 WorkDay::~WorkDay() {
     cout << "=== WORKDAY ENDED ===\n";
     ParcelBatch parcels_shipped = start_parcels - parcels;
-    cout << "+----------------------------------------------------------+\n"
-         << "| Parcels shipped                                          |\n"
-         << "+----------------------------------------------------------+\n";
+    Formatter::printHeading("Parcels shipped");
     parcels_shipped.print();
-    cout << "+----------------------------------------------------------+\n"
-         << "| Total parcels shipped : "
-         << parcels_shipped.size(true) << "\n"
-         << "+----------------------------------------------------------+\n";
-    cout << "+----------------------------------------------------------+\n"
-         << "| Parcels remaining                                        |\n"
-         << "+----------------------------------------------------------+\n";
+    Formatter::printStatistic(
+        "Total parcels shipped: " + to_string(parcels_shipped.size(true))
+    );
+    Formatter::printHeading("Parcels remaining");\
     parcels.print();
-    cout << "+----------------------------------------------------------+\n"
-         << "| Total parcels remaining : "
-         << parcels.size(true) << "\n"
-         << "+----------------------------------------------------------+\n";
+    Formatter::printStatistic(
+        "Total parcels remaining: " + to_string(parcels.size(true))
+    );
     gas_car_operation_cost->Output();
-    cout << "+----------------------------------------------------------+\n"
-         << "| Total gas car operation cost : "
-         << gas_car_operation_cost->Sum() << "\n"
-         << "+----------------------------------------------------------+\n";
+    Formatter::printStatistic(
+        "Total gas car operation cost: " +
+        to_string(gas_car_operation_cost->Sum())
+    );
     electric_car_operation_cost->Output();
-    cout << "+----------------------------------------------------------+\n"
-         << "| Total electric car operation cost : "
-         << electric_car_operation_cost->Sum() << "\n"
-         << "+----------------------------------------------------------+\n";
+    Formatter::printStatistic(
+        "Total electric car operation cost: " +
+        to_string(electric_car_operation_cost->Sum())
+    );
     autonomous_car_operation_cost->Output();
-    cout << "+----------------------------------------------------------+\n"
-         << "| Total autonomous car operation cost : "
-         << autonomous_car_operation_cost->Sum() << "\n"
-         << "+----------------------------------------------------------+\n";
-
-    // FIXME: Varible length
-    cout << "+----------------------------------------------------------+\n"
-         << "| Total cost : " << total_cost->Sum() << "\n"
-         << "+----------------------------------------------------------+\n";
+    Formatter::printStatistic(
+        "Total autonomous car operation cost: " +
+        to_string(autonomous_car_operation_cost->Sum())
+    );
+    Formatter::printStatistic("Total cost: " + to_string(total_cost->Sum()));
 
     delete gas_cars;
     delete electric_cars;

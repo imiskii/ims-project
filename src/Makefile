@@ -19,7 +19,7 @@ DEP := $(OBJ:.o=.d)
 TOPACK= *.cpp *.hpp Makefile ../doc/simulation_study.pdf ../doc/images
 
 PROGS=main
-OBJ=$(BIN)argparser.o $(BIN)main.o $(BIN)GasCar.o $(BIN)WorkDay.o $(BIN)ElectricCar.o $(BIN)AutonomousCar.o $(BIN)Car.o $(BIN)ParcelBatch.o
+OBJ=$(BIN)argparser.o $(BIN)main.o $(BIN)GasCar.o $(BIN)WorkDay.o $(BIN)ElectricCar.o $(BIN)AutonomousCar.o $(BIN)Car.o $(BIN)ParcelBatch.o $(BIN)Formatter.o
 
 .PHONY: clean all pack run
 

@@ -8,6 +8,7 @@
 
 
 #include "argparser.hpp"
+#include "Formatter.hpp"
 #include <cstring>
 
 using namespace std;
@@ -117,13 +118,13 @@ void ArgParser::printArgs() {
     if(!__parsed) {
         return;
     }
-    cout << "+----------------------------------------------------------+\n"
-         << "| Days: " << args.days << "\n"
-         << "| Gas cars: " << args.gas_cars << "\n"
-         << "| Electric cars: " << args.electric_cars << '\n'
-         << "| Autonomous cars: " << args.autonomous_cars << '\n'
-         << "| Parcels per day: " << args.parcels << '\n'
-         << "+----------------------------------------------------------+\n";
+    Formatter::printSeparator();
+    Formatter::align("Days: " + to_string(args.days));
+    Formatter::align("Gas cars: " + to_string(args.gas_cars));
+    Formatter::align("Electric cars: " + to_string(args.electric_cars));
+    Formatter::align("Autonomous cars: " + to_string(args.autonomous_cars));
+    Formatter::align("Parcels per day: " + to_string(args.parcels));
+    Formatter::printSeparator();
 }
 
 void ArgParser::__printHelp()

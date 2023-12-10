@@ -1,5 +1,6 @@
 #include "ParcelBatch.hpp"
 #include <algorithm>
+#include "Formatter.hpp"
 
 //DEBUG
 #include <iostream>
@@ -95,11 +96,18 @@ void ParcelBatch::updateSize() {
 }
 
 void ParcelBatch::print() {
-    cout << "+----------------------------------------------------------+\n"
-         << "| parcels to distant address: " << parcels_to_distant_address
-         << "\n"
-         << "| parcels to near address: " << parcels_to_near_address << '\n'
-         << "| parcels to distant zbox: " << parcels_to_distant_zbox << '\n'
-         << "| parcels to near zbox: " << parcels_to_near_zbox << '\n'
-         << "+----------------------------------------------------------+\n";
+    Formatter::printSeparator();
+    Formatter::align(
+        "parcels to distant address: " + to_string(parcels_to_distant_address)
+    );
+    Formatter::align(
+        "parcels to near address: " + to_string(parcels_to_near_address)
+    );
+    Formatter::align(
+        "parcels to distant zbox: " + to_string(parcels_to_distant_zbox)
+    );
+    Formatter::align(
+        "parcels to near zbox: " + to_string(parcels_to_near_zbox)
+    );
+    Formatter::printSeparator();
 }
