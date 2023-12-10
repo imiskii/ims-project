@@ -11,14 +11,13 @@
 GasCar::GasCar(
     ParcelBatch &parcels,
     unsigned long batch_size,
-    bool distant_location_allowed,
     Stat *operation_cost,
     Stat *total_cost,
     Store *garage
 ) : Car(
     parcels,
     batch_size,
-    distant_location_allowed,
+    true,
     operation_cost,
     total_cost,
     garage

@@ -20,7 +20,6 @@ GasCar *WorkDay::newGasCar(const unsigned long batch_size) {
     return new GasCar(
         parcels,
         batch_size,
-        true,
         gas_car_operation_cost,
         total_cost,
         gas_cars
@@ -31,7 +30,6 @@ ElectricCar *WorkDay::newElectricCar(const unsigned long batch_size) {
     return new ElectricCar(
         parcels,
         batch_size,
-        false,
         electric_car_operation_cost,
         total_cost,
         electric_cars
@@ -42,7 +40,6 @@ AutonomousCar *WorkDay::newAutonomousCar(const unsigned long batch_size) {
     return new AutonomousCar(
         parcels,
         batch_size,
-        false,
         autonomous_car_operation_cost,
         total_cost,
         autonomous_cars

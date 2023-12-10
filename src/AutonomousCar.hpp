@@ -24,7 +24,6 @@ public:
     AutonomousCar(
         ParcelBatch &parcels,
         unsigned long batch_size,
-        bool distant_location_allowed,
         Stat *operation_cost,
         Stat *total_cost,
         Store *garage
