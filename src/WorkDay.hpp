@@ -20,6 +20,7 @@ class WorkDay : public Process
 private:
     static constexpr double PARCELS_TO_DISTANT_LOCATION_MIN_RATIO = 0.02;
     static constexpr double PARCELS_TO_DISTANT_LOCATION_MAX_RATIO = 0.08;
+    static constexpr double PARCELS_TO_ZBOX_RATIO = 0.21;
 
     ParcelBatch start_parcels;
     ParcelBatch parcels;

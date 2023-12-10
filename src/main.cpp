@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <simlib.h>
-#include "consts.hpp"
 #include "argparser.hpp"
 #include "WorkDay.hpp"
 

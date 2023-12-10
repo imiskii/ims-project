@@ -11,7 +11,6 @@
 
 #include <simlib.h>
 #include "ParcelBatch.hpp"
-#include "consts.hpp"
 
 class Car : public Process
 {

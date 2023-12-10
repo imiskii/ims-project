@@ -7,7 +7,6 @@
  */
 
 #include "WorkDay.hpp"
-#include "consts.hpp"
 #include "GasCar.hpp"
 #include "ElectricCar.hpp"
 #include "AutonomousCar.hpp"
