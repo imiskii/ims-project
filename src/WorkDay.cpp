@@ -60,6 +60,9 @@ WorkDay::WorkDay(
     resetFlags();
     Formatter::printHeading("Parcels to ship");
     this->parcels.print();
+    Formatter::printStatistic(
+        "Total parcels to ship: " + to_string(this->parcels.size(true))
+    );
 }
 
 WorkDay::~WorkDay() {
