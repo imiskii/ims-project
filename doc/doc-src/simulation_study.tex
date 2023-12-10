@@ -50,15 +50,13 @@
 % Body
 \section{Introduction}
 
-The objective of this project is to formulate a model [\cite{IMS.lectures}, slide 7] for the logistics, transport, and parcel delivery operations of Packeta, 
-a company specializing in these services. The primary aim of this model [\cite{IMS.lectures}, slide 7] is to determine the optimal ratio of conventional, electric, 
-and autonomous vehicles for practical implementation in last-mile delivery. Concurrently, the simulation [\cite{IMS.lectures}, slide 8] experiments are designed to 
-explain the financial implications associated with employing different modes of transport and to assess efficiency under varying loads, 
+The objective of this project is to formulate a model [\cite{IMS.lectures}, slide 7] for the logistics, transport, and parcel delivery operations of Packeta,
+a company specializing in these services. The primary aim of this model [\cite{IMS.lectures}, slide 7] is to determine the optimal ratio of conventional, electric,
+and autonomous vehicles for practical implementation in last-mile delivery. Concurrently, the simulation [\cite{IMS.lectures}, slide 8] experiments are designed to
+explain the financial implications associated with employing different modes of transport and to assess efficiency under varying loads,
 measured by the number of parcels for delivery.
 
 To achieve these goals, a specific depot within the Žilina region was selected for the study, namely, the Žilina, Strečno depot.
-
-\noindent\todo{K čemu chcete dospět. K čemu jste dospěli, prípadne ešte upraviť úvod podľa podtreby viď prezentácia k projektu slide 22}
 
 
 \subsection{Study sources}
@@ -85,11 +83,11 @@ ease of use, and being freely accessible.
 
 \section{Facts and Hypotheses}
 
-The factual basis for the project primarily relied on information about the vehicles used by Packeta, sourced from the official 
-website of the vehicle manufacturer. The number of parcels a courier can deliver daily was derived from article \cite{parcels.num} on the internet, 
-featuring the CEO of Packeta, who highlighted the effectiveness of parcel lockers and address deliveries. According to the article, 
-a courier can deliver approximately 100 parcels to an address and up to 2500 parcels per day to parcel lockers. This information was 
-cross-referenced with data on the popularity of various delivery destinations \cite{delivery.percentage} to calculate the average number of 
+The factual basis for the project primarily relied on information about the vehicles used by Packeta, sourced from the official
+website of the vehicle manufacturer. The number of parcels a courier can deliver daily was derived from article \cite{parcels.num} on the internet,
+featuring the CEO of Packeta, who highlighted the effectiveness of parcel lockers and address deliveries. According to the article,
+a courier can deliver approximately 100 parcels to an address and up to 2500 parcels per day to parcel lockers. This information was
+cross-referenced with data on the popularity of various delivery destinations \cite{delivery.percentage} to calculate the average number of
 parcels that the courier can deliver per day.
 
 The model also incorporates the cost of courier services, a factor considered due to its elimination with autonomous cars.
@@ -108,9 +106,9 @@ particularly in the winter months when the range of electric cars tends to decre
 
 \section{Model Design}
 
-Parcels are delivered from the designated depot daily and they are categorized into two distinct groups. The initial group contains parcels 
-necessitating delivery beyond the operational range of electric or autonomous vehicles, constituting 2\,--\,8\% \cite{packeta} of the entire parcel volume. 
-The average distance covered for deliveries in this group spans 180\,--\,200 kilometers \cite{packeta}. The fuel cost for the vehicle employed by the designated 
+Parcels are delivered from the designated depot daily and they are categorized into two distinct groups. The initial group contains parcels
+necessitating delivery beyond the operational range of electric or autonomous vehicles, constituting 2\,--\,8\% \cite{packeta} of the entire parcel volume.
+The average distance covered for deliveries in this group spans 180\,--\,200 kilometers \cite{packeta}. The fuel cost for the vehicle employed by the designated
 company is 1,705€ per liter, with a fuel consumption rate of 8.8 liters per 100 kilometers \cite{peugeot}.
 
 The second group, constituting 98\,--\,92\% \cite{packeta} of the parcels, encompasses those amenable to delivery through all available means. The average distance
@@ -119,16 +117,16 @@ transportation, and unloading, within their 8-hour work shift. Couriers utilizin
 they are ready for the next day's deliveries. The cost of electricity is approximately 0.185€ per kilowatt-hour (kWh), and the electric car in use has a
 consumption rate of 0.35 kWh per 100 kilometers \cite{peugeot}.
 
-Upon completion of their work hours, couriers leave and return the subsequent day. The courier's salary, ranging from 1600\,--\,2000€ per day, is counted into 
-the daily operational costs for both electric and conventional vehicles. Autonomous vehicles exclusively rely on electricity and require charging. 
+Upon completion of their work hours, couriers leave and return the subsequent day. The courier's salary, ranging from 1600\,--\,2000€ per day, is counted into
+the daily operational costs for both electric and conventional vehicles. Autonomous vehicles exclusively rely on electricity and require charging.
 Nevertheless, they are capable of delivering parcels throughout the day. If some parcels destined for the address or the pick-up place are not delivered in time, their delivery is moved to the next day.
-It is assumed that during the night, autonomous vehicles either 
-charge or deliver parcels to designated parcel lockers. Consequently, parcels destined for pick-up places and specific addresses receive priority. 
-The preference for delivery destinations is distributed as follows: 44\% for direct delivery to addresses, 35\% for delivery to pick-up places, 
+It is assumed that during the night, autonomous vehicles either
+charge or deliver parcels to designated parcel lockers. Consequently, parcels destined for pick-up places and specific addresses receive priority.
+The preference for delivery destinations is distributed as follows: 44\% for direct delivery to addresses, 35\% for delivery to pick-up places,
 and 21\% for the favored option of delivery to parcel lockers \cite{delivery.percentage}.
 
-An autonomous car possesses an average transport capacity of 400\,--\,600 parcels per battery charge, and the average delivery time for parcels ranges 
-from 2 to 6 hours. The charging time is 30 minutes and during this time the car can also be loaded with packages for delivery. This loading takes 30-60 
+An autonomous car possesses an average transport capacity of 400\,--\,600 parcels per battery charge, and the average delivery time for parcels ranges
+from 2 to 6 hours. The charging time is 30 minutes and during this time the car can also be loaded with packages for delivery. This loading takes 30-60
 minutes. An autonomus car in use has a consumption rate of 0.25 kWh of electricity per 100 kilometers \cite{autonomous.emissions}.
 
 Model created with Petri net [\cite{IMS.lectures}, 126] is in figure \ref{figure:scheme}.
@@ -144,10 +142,71 @@ Model created with Petri net [\cite{IMS.lectures}, 126] is in figure \ref{figure
 
 \section{Architecture of the simulation model}
 
-\noindent\todo{Ako model v skutočnosti funguje (naprogramovaný)}
+Model is implemented as class \texttt{WorkDay} and the simulation is started by running
+\texttt{./main} with the following arguments:
+\begin{itemize}
+    \item \texttt{-d DAYS} - number of days. Each day is
+    an individual simulation executed with the arguments below (except parcels remaining from the previous day, we
+    will get to it later).
+    \item \texttt{-p PARCELS} - number of parcels to run simulation with
+    \item \texttt{-g GAS\_CARS} - number of gas cars to run simulation with
+    \item \texttt{-g ELECTRIC\_CARS} - number of electric cars to run simulation with
+    \item \texttt{-g AUTONOMOUS\_CARS} - number of autonomous cars to run simulation with
+\end{itemize}
+To learn more about arguments, run \texttt{./main -h}.
 
-\noindent\todo{Popis implementácie}
+\newpage
 
+\noindent Work day lasts 24 hours from 8:00 to 8:00 on the following day.
+At the beginning, parcels are sorted to four categories:
+\begin{itemize}
+    \item parcels to distant address or pick-up point
+    \item parcels to near address or pick-up point
+    \item parcels to distant Zbox (parcel locker)
+    \item parcels to near Zbox (parcel locker)
+\end{itemize}
+Implementation-wise there is no difference between parcels to pick-up point and
+addresses, hence they are grouped together.
+Parcels are then loaded into available cars based on the order specified in the
+model.
+Parcels to distant location take priority as they can only be loaded into gas
+cars.
+Parcels to addresses or pick-up points are loaded before parcels to Zboxes as
+they into the queue first based on the model.
+The car cannot be loaded if the parcel batch would not reach the maximum
+capacity. The maximum size of the batch
+is generated from uniform distribution as packages differ in size.
+
+The driver of electric car or gas car ends his shift after delivering all the
+packages in his car and driving the car back to the depot. It is presumed that
+the driver manages to do this within working hours, so there is no need to
+measure time on those types of cars.
+
+While the work day has not ended and autonomous cars could still be loaded, the
+model waits for an autonomous car to return. If the car returns and time
+remaining to the end of the work day is greater or equal to maximum possible
+operation time of the autonomous car (maximum loading time + maximum delivery
+time), the car is loaded with another parcel batch (although implemented
+as a new autonomous car object). Autonomous cars cannot deliver packages to
+addresses or pick-up points after 18:00 as this is the end of regular human work
+day. \newline
+
+\noindent At the end of the work day, the following statistics are collected and printed
+out:
+\begin{itemize}
+    \item parcels shipped
+    \item parcels remaining
+    \item gas car operation cost
+    \item electric car operation cost
+    \item autonomous car operation cost
+    \item total operation cost
+\end{itemize}
+Operation cost includes price of the consumed fuel and driver's daily salary
+(missing in autonomous cars). Both are generated from uniform distribution based
+on values acquired by research mentioned in the previous sections.
+
+If there are any parcels remaining, they are added to the parcels generated on
+the next day.
 
 \section{Experiments}
 

@@ -1,5 +1,5 @@
 #
-# Project: dhcp-stats
+# Project: IMS - T5: SHO Model of logistics
 # Author:  Michal Ľaš (xlasmi00)
 # Date:    03.12.2023
 #
@@ -31,7 +31,7 @@ all: $(BIN) $(PROGS)
 
 
 $(PROGS): $(OBJ)
-	$(CC)  -fsanitize=address -o $@ $^ $(LIBS)
+	$(CC) -o $@ $^ $(LIBS)
 
 
 $(BIN)%.o: %.cpp %.hpp | $(BIN)
